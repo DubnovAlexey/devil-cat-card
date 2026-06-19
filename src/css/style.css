@@ -1,0 +1,127 @@
+/* Общие настройки экрана */
+body {
+    background-color: #0d0d0d; /* Глубокий черный фон страницы */
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Стили горизонтальной визитки */
+.card {
+    background-color: #161616; /* Темно-серый благородный фон карточки */
+    width: 480px;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #222222;
+
+    /* Начальная зловещая красная тень */
+    box-shadow: 0 10px 30px rgba(204, 0, 0, 0.15);
+
+    /* Плавный переход для эффекта "проходящей" тени при наведении */
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+/* Эффект при наведении мышки на визитку: тень загорается ярче */
+.card:hover {
+    transform: translateY(-5px); /* Визитка слегка приподнимается */
+    box-shadow: 0 15px 40px rgba(204, 0, 0, 0.4); /* Тень становится больше и ярче */
+}
+
+/* Верхняя часть визитки: выстраиваем фото и текст в одну линию */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Фотография кота в левом верхнем углу */
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px; /* Делаем углы фото слегка закругленными */
+    object-fit: cover;
+    border: 3px solid #cc0000; /* Грозная красная рамка */
+}
+
+/* Текстовая информация рядом с фото */
+.profile-info {
+    text-align: left;
+}
+
+h1 {
+    font-size: 24px;
+    color: #ffffff;
+    margin: 0 0 5px 0;
+    text-transform: uppercase; /* Все буквы заглавные */
+    letter-spacing: 1px;
+}
+
+.job-title {
+    color: #888888;
+    font-size: 13px;
+    margin: 0;
+}
+
+/* Блок управления музыкой */
+.audio-block {
+    background-color: #1f1f1f;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.audio-label {
+    color: #aaaaaa;
+    font-size: 11px;
+    margin: 0 0 5px 5px;
+    text-transform: uppercase;
+}
+
+audio {
+    width: 100%;
+    height: 30px;
+}
+
+/* Блок с кнопками-ссылками */
+.links-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card-link {
+    flex: 1; /* Кнопки будут одинакового размера */
+    display: block;
+    background-color: #cc0000;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.card-link:hover {
+    background-color: #ff0000; /* При наведении кнопка горит ярче */
+}
+
+/* Нижняя часть визитки: мелкий, строгий, не яркий шрифт */
+.card-footer {
+    border-top: 1px solid #222222; /* Тонкая разделительная линия */
+    padding-top: 15px;
+    text-align: left;
+}
+
+.contact-text {
+    color: #555555; /* Очень приглушенный серый цвет, никакого оранжевого */
+    font-size: 11px;
+    margin: 3px 0;
+    font-family: 'Courier New', monospace; /* Профессиональный "кодерский" шрифт */
+}
