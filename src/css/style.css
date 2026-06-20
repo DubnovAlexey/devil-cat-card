@@ -176,28 +176,35 @@ audio {
     color: #555555; /* Очень приглушенный серый цвет, никакого оранжевого */
     font-size: 11px;
     margin: 3px 0;
-    font-family: 'Courier New', monospace; /* Профессиональный "кодерский" шрифт */
+    font-family: 'Courier New', monospace;
 }
 
-/* Полноэкранный слой для всплывающих картинок и видео */
-.modal-overlay {
-    display: none; /* Скрыто по умолчанию */
-    position: fixed; /* Фиксируется поверх всего экрана */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Почти черный прозрачный фон */
-    justify-content: center;
+/* Страница секретаря */
+
+.secretary-page {
+    margin: 0;
+    background-color: #0d0d0d;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    z-index: 1000; /* Выносит слой на самый передний план */
+    justify-content: center;
+    height: 100vh;
 }
 
-/* Стили для медиафайлов внутри всплывающего окна */
-.modal-content {
+.secretary-video {
     max-width: 90%;
-    max-height: 90%;
-    border: 2px solid #cc0000; /* Дьявольская рамка для контента */
-    box-shadow: 0 0 30px rgba(204, 0, 0, 0.6);
+    max-height: 80vh;
+    border: 2px solid #cc0000;
 }
 
+.back-link {
+    margin-top: 20px;
+    color: #cc0000;
+    text-decoration: none;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
