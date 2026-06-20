@@ -11,17 +11,15 @@ body {
 
 /* Стили горизонтальной визитки */
 .card {
-    background-color: #161616; /* Темно-серый благородный фон карточки */
-    width: 480px;
-    padding: 30px;
+    background-color: #161616;
+    width: 600px;
+    height: 400px;
+    box-sizing: border-box; /* Гарантирует, что размеры визитки останутся ровно 400px */
+    padding: 20px;
     border-radius: 15px;
     border: 1px solid #222222;
-
-    /* Начальная зловещая красная тень */
     box-shadow: 0 10px 30px rgba(204, 0, 0, 0.15);
-
-    /* Плавный переход для эффекта "проходящей" тени при наведении */
-    transition: box-shadow 0.4s ease, transform 0.4s ease;
+    position: relative;
 }
 
 /* Эффект при наведении мышки на визитку: тень загорается ярче */
@@ -87,30 +85,85 @@ audio {
     height: 30px;
 }
 
-/* Блок с кнопками-ссылками */
+/* Блок с кнопками переводим на сетку Grid */
 .links-container {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Разделяет контейнер строго на две равные колонки */
+    gap: 12px; /* Делаем зазоры чуть меньше для компактности */
+    margin-bottom: 20px;
 }
 
 .card-link {
-    flex: 1; /* Кнопки будут одинакового размера */
+    position: relative;
+    overflow: hidden; /* Скрываем искру, пока она находится за границами кнопки */
     display: block;
     background-color: #cc0000;
     color: #ffffff;
     text-decoration: none;
-    padding: 10px;
+    padding: 8px 4px;
+    font-size: 13px;
     border-radius: 6px;
     font-weight: bold;
-    font-size: 12px;
     text-align: center;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s, clip-path 0.3s;
 }
 
-.card-link:hover {
-    background-color: #ff0000; /* При наведении кнопка горит ярче */
+/* Подготовка слоя с адской лавой */
+.card-link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    /* Насыщенный оранжево-красный градиент раскаленной магмы */
+    background: linear-gradient(90deg, transparent, #ff6600, #ff3300, transparent);
 }
+
+/* Эффект наведения: превращаем кнопку в обоюдоострое лезвие */
+.card-link:hover {
+    box-shadow: inset 0 0 15px #ff3300; /* Внутреннее горение */
+    /* Сдвигаем углы на 20% к центру, делая боковые пики длиннее и острее */
+    clip-path: polygon(20% 0%, 80% 0%, 100% 50%, 80% 100%, 20% 100%, 0% 50%);
+}
+
+/* Запуск БЕСКОНЕЧНОГО движения лавы при наведении */
+.card-link:hover::after {
+    animation: lava-flow 2s infinite linear;
+}
+
+/* Анимация непрерывного течения слева направо */
+@keyframes lava-flow {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* Стили для кнопки секретаря */
+.card-link.secretary-link {
+    grid-column: span 2; /* Заставляет кнопку занять обе колонки, то есть всю вторую строку */
+    font-size: 11px;
+    padding: 5px;
+    background-color: #990000;
+}
+
+/* Создаем покадровую анимацию адского свечения */
+@keyframes hellfire {
+    0% {
+        box-shadow: 0 0 5px rgba(204, 0, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(204, 0, 0, 0.9); /* Тень становится шире и ярче */
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(204, 0, 0, 0.5);
+    }
+}
+
+/* Эффект при наведении на кнопку связи */
 
 /* Нижняя часть визитки: мелкий, строгий, не яркий шрифт */
 .card-footer {
@@ -125,3 +178,26 @@ audio {
     margin: 3px 0;
     font-family: 'Courier New', monospace; /* Профессиональный "кодерский" шрифт */
 }
+
+/* Полноэкранный слой для всплывающих картинок и видео */
+.modal-overlay {
+    display: none; /* Скрыто по умолчанию */
+    position: fixed; /* Фиксируется поверх всего экрана */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Почти черный прозрачный фон */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Выносит слой на самый передний план */
+}
+
+/* Стили для медиафайлов внутри всплывающего окна */
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border: 2px solid #cc0000; /* Дьявольская рамка для контента */
+    box-shadow: 0 0 30px rgba(204, 0, 0, 0.6);
+}
+
