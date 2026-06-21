@@ -20,17 +20,19 @@
 <!--репозиторий).-->
 <div class="card">
     <div class="card-header">
-        <img src="src/img/Devil%20Cat.jpg" alt="Devil Cat" class="profile-img">
+        <img src="src/img/Devil%20Cat.jpg" alt="Devil Cat" class="profile-img" id="cat-photo" style="cursor: pointer;">
+
         <div class="profile-info">
             <h1>Devil Cat Vasily</h1>
             <p class="job-title">Senior Night Galloper & Soul Demander</p>
+
+            <audio id="music-player" loop>
+                <source src="src/audio/SpotiDownloader_com_Photosynthesis_Carbon_Based_Lifeforms.mp3">
+            </audio>
+            <p class="audio-label" style="font-size: 10px; color: #888; margin-top: 5px;">
+                Press to dive in: Carbon Based Lifeforms — Photosynthesis
+            </p>
         </div>
-    </div>
-    <div class="audio-block">
-        <p class="audio-label">Photosynthesis Carbon Based Lifeforms:</p>
-        <audio controls loop>
-            <source src="src/audio/SpotiDownloader_com_Photosynthesis_Carbon_Based_Lifeforms.mp3">
-        </audio>
     </div>
     <div class="links-container">
         <a
@@ -63,7 +65,18 @@
         </p>
     </div>
 </div>
+<script>
+    const photo = document.getElementById('cat-photo');
+    const audio = document.getElementById('music-player');
 
+    photo.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play();
+        } else {
+            audio.pause();
+        }
+    });
+</script>
 
 </body>
 </html>
