@@ -9,34 +9,32 @@ body {
     margin: 0;
 }
 
-/*!* Стили горизонтальной визитки *!*/
-/*.card {*/
-/*    background-color: #161616;*/
-/*    width: 600px;*/
-/*    height: 400px;*/
-/*    box-sizing: border-box; !* Гарантирует, что размеры визитки останутся ровно 400px *!*/
-/*    padding: 20px;*/
-/*    border-radius: 15px;*/
-/*    border: 1px solid #222222;*/
-/*    box-shadow: 0 10px 30px rgba(204, 0, 0, 0.15);*/
-/*    position: relative;*/
-/*}*/
-/* Стили горизонтальной визитки */
 .card {
     background-color: #161616;
-    width: 90%;           /* Визитка занимает 90% ширины экрана на мобильных */
+    width: 95%;           /* Визитка занимает 90% ширины экрана на мобильных */
     max-width: 600px;     /* Но не шире 600px на десктопе */
     min-width: 300px;     /* Минимальный размер, меньше которого не сжимаемся */
     height: auto;         /* Позволяем высоте подстраиваться под контент */
-    min-height: 350px;    /* Чтобы не была слишком плоской */
-    box-sizing: border-box;
-    padding: 20px;
+    min-height: 400px;    /* Чтобы не была слишком плоской */
+    padding: 5vw;         /* Отступы внутри карточки тоже станут относительными (5% от ширины вьюпорта) */
     border-radius: 15px;
     border: 1px solid #222222;
     box-shadow: 0 10px 30px rgba(204, 0, 0, 0.15);
     position: relative;
+    box-sizing: border-box;
 }
-
+/* Увеличиваем размер шрифтов на мобильных, чтобы было удобно читать */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 20px;
+    }
+    .job-title {
+        font-size: 14px;
+    }
+    .card-link {
+        padding: 12px 8px; /* Кнопки станут выше и их будет легче нажать пальцем */
+    }
+}
 /* Эффект при наведении мышки на визитку: тень загорается ярче */
 .card:hover {
     transform: translateY(-5px); /* Визитка слегка приподнимается */
