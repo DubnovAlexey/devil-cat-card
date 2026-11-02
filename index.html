@@ -21,7 +21,7 @@
 <!--репозиторий).-->
 <div class="card">
     <div class="card-header">
-        <img src="src/img/Devil%20Cat.jpg" alt="Devil Cat" class="profile-img" id="cat-photo" style="cursor: pointer;">
+        <img src="src/img/Devil%20Cat.jpg" alt="Devil Cat — press to play or pause the music" class="profile-img" id="cat-photo" style="cursor: pointer;" role="button" tabindex="0">
 
         <div class="profile-info">
             <h1>Devil Cat Vasily</h1>
@@ -70,11 +70,20 @@
     const photo = document.getElementById('cat-photo');
     const audio = document.getElementById('music-player');
 
-    photo.addEventListener('click', () => {
+    const toggleMusic = () => {
         if (audio.paused) {
             audio.play();
         } else {
             audio.pause();
+        }
+    };
+
+    photo.addEventListener('click', toggleMusic);
+    // The photo works as a button from the keyboard too: Enter or Space
+    photo.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleMusic();
         }
     });
 </script>
