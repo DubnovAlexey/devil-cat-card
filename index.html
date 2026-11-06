@@ -70,9 +70,20 @@
     const photo = document.getElementById('cat-photo');
     const audio = document.getElementById('music-player');
 
+    const syncMusicState = () => {
+        photo.setAttribute('aria-pressed', String(!audio.paused));
+        photo.setAttribute('aria-label', audio.paused ? 'Play music' : 'Pause music');
+    };
+    audio.addEventListener('play', syncMusicState);
+    audio.addEventListener('pause', syncMusicState);
+    syncMusicState();
+
     const toggleMusic = () => {
         if (audio.paused) {
-            audio.play();
+            audio.play().catch(() => {
+                // Отказ браузера или сети оставляет кнопку доступной для повторного запуска.
+                photo.setAttribute('aria-label', 'Music could not start. Press to try again.');
+            });
         } else {
             audio.pause();
         }
