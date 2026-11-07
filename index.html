@@ -27,10 +27,8 @@
             <h1>Devil Cat Vasily</h1>
             <p class="job-title">Senior Night Galloper & Soul Demander</p>
 
-            <audio id="music-player" loop>
-                <source src="src/audio/SpotiDownloader_com_Photosynthesis_Carbon_Based_Lifeforms.mp3">
-            </audio>
-            <p class="audio-label" style="font-size: 10px; color: #888; margin-top: 5px;">
+            <audio id="music-player" preload="none" playsinline></audio>
+            <p id="music-label" class="audio-label" style="font-size: 10px; color: #888; margin-top: 5px;">
                 <---Press to dive in: Carbon Based Lifeforms — Photosynthesis
             </p>
         </div>
@@ -67,35 +65,122 @@
     </div>
 </div>
 <script>
+    // ФАЙЛ: index.html, раздел аудиоплеера.
+    // НАЗНАЧЕНИЕ: Последовательный плейлист по жесту, состояние кнопки и ограниченные попытки при ошибке.
+    // РАЗДЕЛЫ: Треки; выбор/воспроизведение; ended/error; указатель/клавиатура; pagehide.
     const photo = document.getElementById('cat-photo');
     const audio = document.getElementById('music-player');
+    const musicLabel = document.getElementById('music-label');
+    const audioTracks = Object.freeze([
+        { src: 'src/audio/SpotiDownloader_com_Photosynthesis_Carbon_Based_Lifeforms.mp3', label: 'Carbon Based Lifeforms — Photosynthesis' },
+        { src: 'src/audio/HEIM-Lonmina.mp3', label: 'HEIM — Lonmina' },
+    ]);
+    let currentTrack = 0, selectedSource = -1, playbackAttempt = 0, failedTracks = 0;
+    let shouldPlay = false, exhausted = false, playbackMessage = '';
 
+    // НАЧАЛО ФУНКЦИИ syncMusicState
     const syncMusicState = () => {
         photo.setAttribute('aria-pressed', String(!audio.paused));
-        photo.setAttribute('aria-label', audio.paused ? 'Play music' : 'Pause music');
+        photo.setAttribute('aria-label', playbackMessage || (audio.paused ? 'Play music' : 'Pause music'));
+        if (musicLabel) musicLabel.textContent = audioTracks[currentTrack].label;
     };
-    audio.addEventListener('play', syncMusicState);
+    // КОНЕЦ ФУНКЦИИ syncMusicState
+
+    // НАЧАЛО ФУНКЦИИ selectTrack
+    const selectTrack = index => {
+        currentTrack = (index + audioTracks.length) % audioTracks.length;
+        if (selectedSource !== currentTrack || !audio.src) {
+            audio.src = encodeURI(audioTracks[currentTrack].src);
+            selectedSource = currentTrack;
+        }
+        syncMusicState();
+    };
+    // КОНЕЦ ФУНКЦИИ selectTrack
+
+    // НАЧАЛО ФУНКЦИИ requestPlayback
+    const requestPlayback = () => {
+        selectTrack(currentTrack);
+        const attempt = ++playbackAttempt;
+        let request;
+        try { request = audio.play(); }
+        catch { request = Promise.reject(new Error('Playback unavailable')); }
+        return Promise.resolve(request).then(() => {
+            if (attempt !== playbackAttempt || !shouldPlay) return;
+            failedTracks = 0;
+            playbackMessage = '';
+            syncMusicState();
+        }).catch(() => {
+            if (attempt !== playbackAttempt || !shouldPlay) return;
+            shouldPlay = false;
+            audio.pause();
+            playbackMessage = 'Music could not start. Press to try again.';
+            syncMusicState();
+        });
+    };
+    // КОНЕЦ ФУНКЦИИ requestPlayback
+
+    // НАЧАЛО ФУНКЦИИ advanceTrack
+    const advanceTrack = failed => {
+        if (!shouldPlay || exhausted) return;
+        if (failed && ++failedTracks >= audioTracks.length) {
+            playbackAttempt++;
+            shouldPlay = false;
+            exhausted = true;
+            audio.pause();
+            playbackMessage = 'Music could not start. Press to try again.';
+            syncMusicState();
+            return;
+        }
+        playbackAttempt++;
+        audio.pause();
+        selectTrack(currentTrack + 1);
+        requestPlayback();
+    };
+    // КОНЕЦ ФУНКЦИИ advanceTrack
+
+    audio.addEventListener('play', () => {
+        if (!audio.paused) playbackMessage = '';
+        syncMusicState();
+    });
     audio.addEventListener('pause', syncMusicState);
+    audio.addEventListener('playing', () => {
+        if (!shouldPlay) { audio.pause(); syncMusicState(); return; }
+        failedTracks = 0;
+        syncMusicState();
+    });
+    audio.addEventListener('ended', () => { if (audio.ended) advanceTrack(false); });
+    audio.addEventListener('error', () => advanceTrack(true));
     syncMusicState();
 
+    // НАЧАЛО ФУНКЦИИ toggleMusic
     const toggleMusic = () => {
-        if (audio.paused) {
-            audio.play().catch(() => {
-                // Отказ браузера или сети оставляет кнопку доступной для повторного запуска.
-                photo.setAttribute('aria-label', 'Music could not start. Press to try again.');
-            });
-        } else {
+        playbackMessage = '';
+        if (shouldPlay) {
+            playbackAttempt++;
+            shouldPlay = false;
             audio.pause();
+            syncMusicState();
+            return;
         }
+        shouldPlay = true;
+        failedTracks = 0;
+        if (exhausted || audio.error) { exhausted = false; audio.load(); }
+        return requestPlayback();
     };
+    // КОНЕЦ ФУНКЦИИ toggleMusic
 
     photo.addEventListener('click', toggleMusic);
-    // The photo works as a button from the keyboard too: Enter or Space
     photo.addEventListener('keydown', e => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             toggleMusic();
         }
+    });
+    window.addEventListener('pagehide', () => {
+        playbackAttempt++;
+        shouldPlay = false;
+        audio.pause();
+        syncMusicState();
     });
 </script>
 

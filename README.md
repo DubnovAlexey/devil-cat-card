@@ -27,9 +27,10 @@ The language links above switch the documentation; they do not translate the exi
 
 ### Music
 
-The music on the photo:
+The photo starts a sequential two-track playlist that repeats after the last track:
 
 - Carbon Based Lifeforms — "Photosynthesis"
+- HEIM — "Lonmina" (filename credit)
 
 The music belongs to its authors and is used only in this non-commercial study project. If you hold the rights to a track and want it removed, please open an issue and I will remove it.
 
@@ -84,9 +85,10 @@ These are proposals, not currently implemented features.
 
 ### Музыка
 
-Музыка на фото:
+Фото запускает последовательный плейлист из двух композиций; после последней он повторяется:
 
 - Carbon Based Lifeforms — «Photosynthesis»
+- HEIM — «Lonmina» (по имени файла)
 
 Музыка принадлежит авторам и используется только в этом некоммерческом учебном проекте. Если вы правообладатель и хотите, чтобы трек убрали, откройте issue — уберу.
 
@@ -143,9 +145,10 @@ HTML5 · CSS3 · немного JavaScript · `<audio>` и `<video>` · GitHub P
 
 ### מוזיקה
 
-המוזיקה בתמונה:
+התמונה מפעילה רשימת השמעה של שני קטעים לפי הסדר, שחוזרת להתחלה בסיום:
 
 - Carbon Based Lifeforms — "Photosynthesis"
+- HEIM — "Lonmina" (לפי שם הקובץ)
 
 המוזיקה שייכת ליוצריה ומשמשת רק בפרויקט לימודי לא מסחרי זה. בעלי זכויות שרוצים שרצועה תוסר מוזמנים לפתוח issue ואסיר אותה.
 
