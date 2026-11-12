@@ -1,6 +1,8 @@
+<!--suppress MarkdownUnresolvedFileReference -->
+
 # Devil Cat Card
 
-[English](#english) · [Русский](#russian) · [עברית](#hebrew)
+[English](#english) · [Русский](#russian) · [עברית](#hebrew) · [Español](#spanish) · [Français](#french)
 
 <a name="english"></a>
 
@@ -169,3 +171,119 @@ HTML5 · CSS3 · מעט JavaScript · `<audio>` ו-`<video>` · GitHub Pages
 - יכולות: להוסיף תגובה קצרה או עובדה על חתולים בדף המזכיר.
 
 </div>
+
+---
+
+<a name="spanish"></a>
+
+## Español
+
+**Tarjeta de visita del gato diablo**
+
+Una tarjeta de visita en broma de mi gato Vasili, «corcel nocturno mayor y reclamador de almas». Segunda tarea del curso Full Stack: una página-tarjeta en HTML y CSS con algunas sorpresas.
+
+**Demo:** https://dubnovalexey.github.io/devil-cat-card/
+
+### Recorrido rápido
+
+Abra Call, Email y Cat Secretary y vuelva a la tarjeta. Con Tab y Enter/espacio pruebe la música de la foto sin ratón.
+
+Compare `index.html`, `phone.html`, `email.html`, `secretary.html` y `src/css/style.css`. Los contactos pertenecen a un personaje de broma: es una demostración de navegación y medios, sin servidor de mensajes.
+
+Los enlaces de idioma de arriba cambian la documentación; no traducen la interfaz de la demo.
+
+### Funciones
+
+- Tarjeta con foto, cargo, contactos y tres enlaces: Call, Email y Cat Secretary.
+- Cada enlace abre su propia página con una imagen o un vídeo en bucle y un botón para volver.
+- Un clic en la foto (o Enter / espacio con el teclado) pone y pausa la música.
+- Funciona en el móvil: cada página tiene un viewport adaptable.
+
+### Música
+
+La foto inicia una lista de dos temas que suenan seguidos; tras el último vuelve a empezar:
+
+- Carbon Based Lifeforms — «Photosynthesis»
+- HEIM — «Lonmina» (según el nombre del archivo)
+
+La música pertenece a sus autores y solo se usa en este proyecto educativo sin fines comerciales. Si usted es titular de los derechos y quiere que se retire una pista, abra un issue y la quitaré.
+
+### Tecnologías
+
+HTML5 · CSS3 · un poco de JavaScript · `<audio>` y `<video>` · GitHub Pages
+
+### Lo que aprendí
+
+- Estructura de página con HTML semántico y enlaces entre páginas.
+- Diseño de la tarjeta: disposición, sombras, efectos al pasar el ratón.
+- Medios en el navegador: reglas de reproducción automática (el vídeo arranca solo sin sonido) y control del sonido desde JavaScript.
+
+### Cómo ejecutarlo
+
+Abra `index.html` en el navegador.
+
+### Plan de desarrollo
+
+Son propuestas, no funciones ya implementadas.
+
+- Visual: mejorar el contraste del texto pequeño, prever reduced motion y un favicon compacto de ojos de gato.
+- Ingeniería: definir cómo se detienen y liberan los medios al salir de la página y mantener las pruebas de control con teclado.
+- Funciones: añadir una frase breve opcional o un dato sobre gatos en la página del secretario.
+
+---
+
+<a name="french"></a>
+
+## Français
+
+**La carte de visite du chat diable**
+
+Une carte de visite humoristique de mon chat Vassili, « grand coursier nocturne et réclameur d'âmes ». Deuxième devoir du cours Full Stack : une page-carte en HTML et CSS avec quelques surprises.
+
+**Démo :** https://dubnovalexey.github.io/devil-cat-card/
+
+### Visite rapide
+
+Ouvrez Call, Email et Cat Secretary, puis revenez à la carte. Avec Tab et Entrée/espace, testez la musique de la photo sans souris.
+
+Comparez `index.html`, `phone.html`, `email.html`, `secretary.html` et `src/css/style.css`. Les contacts appartiennent à un personnage pour rire : c'est une démonstration de navigation et de médias, sans serveur de messages.
+
+Les liens de langue ci-dessus changent la documentation ; ils ne traduisent pas l'interface de la démo.
+
+### Fonctions
+
+- Carte avec photo, fonction, contacts et trois liens : Call, Email et Cat Secretary.
+- Chaque lien ouvre sa propre page avec une image ou une vidéo en boucle et un bouton retour.
+- Un clic sur la photo (ou Entrée / espace au clavier) lance et met en pause la musique.
+- Fonctionne sur téléphone : chaque page a un viewport adaptatif.
+
+### Musique
+
+La photo lance une liste de deux morceaux joués à la suite ; après le dernier, elle recommence :
+
+- Carbon Based Lifeforms — « Photosynthesis »
+- HEIM — « Lonmina » (d'après le nom du fichier)
+
+La musique appartient à ses auteurs et n'est utilisée que dans ce projet d'étude non commercial. Si vous êtes titulaire des droits et souhaitez qu'une piste soit retirée, ouvrez une issue : je la retirerai.
+
+### Technologies
+
+HTML5 · CSS3 · un peu de JavaScript · `<audio>` et `<video>` · GitHub Pages
+
+### Ce que j'ai appris
+
+- La structure d'une page en HTML sémantique et les liens entre pages.
+- La mise en forme de la carte : disposition, ombres, effets au survol.
+- Les médias dans le navigateur : règles de lecture automatique (la vidéo ne démarre que sans le son), contrôle du son depuis JavaScript.
+
+### Lancer le projet
+
+Ouvrez `index.html` dans le navigateur.
+
+### Pistes d'évolution
+
+Ce sont des propositions, pas des fonctions déjà réalisées.
+
+- Visuel : améliorer le contraste du petit texte, prévoir reduced motion et un favicon compact aux yeux de chat.
+- Ingénierie : définir l'arrêt et la libération des médias quand on quitte la page, garder les tests de contrôle au clavier.
+- Fonctions : ajouter une courte réplique facultative ou un fait sur les chats sur la page du secrétaire.
