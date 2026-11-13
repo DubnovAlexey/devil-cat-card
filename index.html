@@ -6,6 +6,8 @@
     <title>Devil Cat Card</title>
     <link rel="icon" type="image/jpeg" href="src/img/Devil%20Cat.jpg">
     <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/alive.css">
+    <link rel="stylesheet" href="src/css/surprises.css">
 </head>
 <body>
 
@@ -21,13 +23,19 @@
 <!--репозиторий).-->
 <div class="card">
     <div class="card-header">
-        <img src="src/img/Devil%20Cat.jpg" alt="Devil Cat — press to play or pause the music" class="profile-img" id="cat-photo" style="cursor: pointer;" role="button" tabindex="0">
+        <!-- Живой портрет: глаза и пентаграмма тлеют, при наведении или касании вспыхивают (src/js/alive.js) -->
+        <span class="alive alive--mini"
+              data-alive='{"eyes":[[29,50,11,"#ff5a14"],[71,50,11,"#fff2a8"],[49,31,6,"#ffd36a"]]}'>
+            <span class="alive-body">
+                <img src="src/img/Devil%20Cat.jpg" alt="Devil Cat — press to play or pause the music" class="profile-img" id="cat-photo" style="cursor: pointer;" role="button" tabindex="0">
+            </span>
+        </span>
 
         <div class="profile-info">
             <h1>Devil Cat Vasily</h1>
             <p class="job-title">Senior Night Galloper & Soul Demander</p>
 
-            <audio id="music-player" preload="none" playsinline></audio>
+            <audio id="music-player" preload="none"></audio>
             <p id="music-label" class="audio-label" style="font-size: 10px; color: #888; margin-top: 5px;">
                 <---Press to dive in: Carbon Based Lifeforms — Photosynthesis
             </p>
@@ -188,6 +196,8 @@
         syncMusicState();
     });
 </script>
+<script src="src/js/alive.js" defer></script>
+<script src="src/js/surprises.js" defer></script>
 
 </body>
 </html>

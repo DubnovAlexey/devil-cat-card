@@ -6,18 +6,27 @@
     <title>Devil Cat Phone</title>
     <link rel="icon" type="image/jpeg" href="src/img/Devil%20Cat.jpg">
     <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/alive.css">
+    <link rel="stylesheet" href="src/css/surprises.css">
 </head>
 
 <body class="secretary-page">
 
-<img
-        class="secretary-video"
-        src="src/img/screaming-cat.jpg"
-        alt="Phone Cat">
+<!-- Живая картинка: глаза Василия горят, пентаграмма тлеет, кот дышит, по стеклу текут капли, кружат стрекозы.
+     Координаты — в процентах картинки (src/js/alive.js). Прежняя картинка — src/img/screaming-cat.jpg. -->
+<figure class="alive"
+        data-alive='{"eyes":[[36.8,32.3,5.6,"#ff5a14"],[61.1,32.1,5.6,"#b8f040"],[48.3,26,2.6,"#e8c070"]],"pupils":[[37,32.3,3.8],[61,32.1,3.8]],"fx":["breath","rain","flies"],"flies":[50,30,30],"flySprite":"src/img/surprises/dragonfly.webp"}'>
+    <div class="alive-body">
+        <img src="src/img/live/call.webp" width="832" height="1216"
+             alt="Devil Cat Vasily, pentacle on his forehead and two different glowing eyes, screams into an old black telephone in the rain">
+    </div>
+</figure>
 
 <a href="./index.html" class="back-link">
     !Spare me, take me back!
 </a>
 
+<script src="src/js/alive.js" defer></script>
+<script src="src/js/surprises.js" defer></script>
 </body>
 </html>

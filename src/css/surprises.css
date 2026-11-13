@@ -1,0 +1,120 @@
+/* ФАЙЛ: src/css/surprises.css
+   НАЗНАЧЕНИЕ: слой «неожиданностей» визитки (src/js/surprises.js). Слой не ловит нажатия; размеры фигур —
+   от ширины экрана, чтобы на телефоне они не закрывали всю страницу. Кнопка 🐾 в углу их выключает. */
+
+.surprise-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.surprise {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: none;
+    will-change: transform, opacity;
+    user-select: none;
+}
+
+/* Размеры фигур */
+.surprise--paw { width: clamp(180px, 34vw, 420px); }
+.surprise--dragonfly { width: clamp(70px, 10vw, 120px); }
+.surprise--lady { width: clamp(220px, 34vw, 430px); }
+.surprise--kiss { width: clamp(90px, 13vw, 160px); opacity: .9; mix-blend-mode: multiply; }
+.surprise--scratches { width: clamp(220px, 40vw, 520px); opacity: 0; mix-blend-mode: screen; }
+.surprise--pentacle { width: clamp(160px, 26vw, 320px); opacity: 0; mix-blend-mode: screen; }
+.surprise--jar { width: clamp(110px, 16vw, 200px); }
+.surprise--contract { width: clamp(150px, 22vw, 280px); }
+
+/* Способы движения: скрипт задаёт конечную точку, переход делает остальное */
+.surprise--move-fast { transition: transform .38s cubic-bezier(.2, .9, .3, 1.15); }
+.surprise--move-soft { transition: transform 1.6s cubic-bezier(.25, .8, .3, 1); }
+.surprise--move-wobble { transition: transform 2.2s cubic-bezier(.45, .05, .55, .95); animation: surprise-wobble .35s ease-in-out infinite alternate; }
+.surprise--move-slam { transition: transform .16s cubic-bezier(.6, 0, 1, .6); }
+.surprise--move-roll { transition: transform 2.4s cubic-bezier(.3, .6, .4, 1); }
+
+@keyframes surprise-wobble {
+    from { margin-top: -6px; }
+    to { margin-top: 6px; }
+}
+
+/* Стрекоза зависла: мелко дрожит в воздухе */
+.surprise--hover { animation: surprise-hover .12s linear infinite alternate; }
+
+@keyframes surprise-hover {
+    from { margin-left: 0; }
+    to { margin-left: 2px; }
+}
+
+/* Банка дрожит: душа внутри стучит в стекло */
+.surprise--shiver { animation: surprise-shiver .12s linear infinite alternate; }
+
+@keyframes surprise-shiver {
+    from { margin-left: -2px; }
+    to { margin-left: 2px; }
+}
+
+/* Царапины проступают и остывают */
+.surprise--scratches-on { animation: surprise-cool 3.6s ease-out forwards; }
+
+@keyframes surprise-cool {
+    0% { opacity: 0; }
+    6% { opacity: 1; }
+    60% { opacity: .85; }
+    100% { opacity: .55; }
+}
+
+/* Пентаграмма прожигается: вспышка, свечение, остывание */
+.surprise--burn { animation: surprise-burn 5s ease-out forwards; }
+
+@keyframes surprise-burn {
+    0% { opacity: 0; transform-origin: center; }
+    8% { opacity: 1; }
+    55% { opacity: .9; }
+    100% { opacity: 0; }
+}
+
+/* Договор сгорает снизу вверх */
+.surprise--burning {
+    animation: surprise-paper-burn 3s ease-in forwards;
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 0%);
+    mask-image: linear-gradient(to top, transparent 0%, #000 0%);
+}
+
+@keyframes surprise-paper-burn {
+    0% { -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 6%); mask-image: linear-gradient(to top, transparent 0%, #000 6%); }
+    50% { -webkit-mask-image: linear-gradient(to top, transparent 45%, #000 55%); mask-image: linear-gradient(to top, transparent 45%, #000 55%); }
+    100% { -webkit-mask-image: linear-gradient(to top, transparent 100%, #000 100%); mask-image: linear-gradient(to top, transparent 100%, #000 100%); }
+}
+
+.surprise--fade { transition: opacity .9s ease; opacity: 0; }
+
+/* Кнопка 🐾: включить или выключить неожиданности */
+.surprise-toggle {
+    position: fixed;
+    right: 12px;
+    bottom: 12px;
+    z-index: 41;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #cc0000;
+    border-radius: 50%;
+    background: rgba(13, 13, 13, .8);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(204, 0, 0, .4);
+}
+
+.surprise-toggle--off {
+    opacity: .45;
+    filter: grayscale(1);
+}
+
+.surprise-toggle:focus-visible {
+    outline: 2px solid #ff8a1f;
+    outline-offset: 2px;
+}

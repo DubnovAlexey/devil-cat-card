@@ -1,0 +1,272 @@
+/* ФАЙЛ: src/css/alive.css
+   НАЗНАЧЕНИЕ: «живые» картинки визитки (src/js/alive.js): горящие глаза, дыхание, капли, мухи, искры, дым,
+   молнии. Всё лежит поверх картинки и не ловит нажатия. Значения по умолчанию у переменных — те, что задаёт
+   скрипт, чтобы стиль читался и без него. */
+
+.alive {
+    --x: 50%;
+    --y: 50%;
+    --r: 4%;
+    --glow: #ff4a1a;
+    --size: 1;
+    --drift: 0px;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    line-height: 0;
+    overflow: hidden;
+    border: 2px solid #cc0000;
+    max-width: 90%;
+    box-shadow: 0 0 28px rgba(204, 0, 0, .35);
+}
+
+.alive:not(.alive--mini) .alive-body > img {
+    display: block;
+    max-width: 100%;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+}
+
+/* Маленький портрет сохраняет свои размеры из style.css (.profile-img) */
+.alive--mini img {
+    display: block;
+}
+
+/* Тело картинки и слой накладок дышат вместе, иначе глаза «съезжали» бы с лица */
+.alive-body {
+    position: relative;
+    transform-origin: 50% 90%;
+}
+
+.alive--breath .alive-body {
+    animation: alive-breath 4.8s ease-in-out infinite;
+}
+
+@keyframes alive-breath {
+    0%, 100% { transform: scale(1); }
+    42% { transform: scale(1.014) translateY(-0.4%); }
+    55% { transform: scale(1.013) translateY(-0.35%); }
+}
+
+.alive-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* Глаз: свечение поверх радужки, ритм у каждого свой; при касании вспыхивает */
+.alive-eye {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: calc(var(--r) * 2);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    /* Середина глаза прозрачная: в глазах Василия нарисованы черепа, свечение их не заливает,
+       а горит кольцом по краю глаза и ореолом вокруг */
+    background: radial-gradient(circle, rgba(0, 0, 0, 0) 0 38%, var(--glow) 47%, rgba(0, 0, 0, 0) 70%);
+    mix-blend-mode: screen;
+    transform: translate(-50%, -50%);
+    opacity: .5;
+    animation: alive-eye-burn 3s ease-in-out infinite;
+}
+
+@keyframes alive-eye-burn {
+    0%, 100% { opacity: .38; transform: translate(-50%, -50%) scale(.92); }
+    48% { opacity: .78; transform: translate(-50%, -50%) scale(1.12); }
+    52% { opacity: .62; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+.alive--flare .alive-eye {
+    animation: alive-eye-flare 1.6s ease-out;
+}
+
+@keyframes alive-eye-flare {
+    0% { opacity: .5; transform: translate(-50%, -50%) scale(1); }
+    18% { opacity: 1; transform: translate(-50%, -50%) scale(2.1); }
+    100% { opacity: .45; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Череп в глубине зрачка: копия картинки, видная только в мягком круге зрачка, растёт и снова сжимается.
+   Алексей 13.11: «от больших до маленьких, медленно, плавно, очень спокойно, уверенно и неотвратимо» —
+   один долгий вдох-выдох в 8 секунд, оба глаза в такт, мягкая синусоида без рывков. Копия никогда не меньше
+   оригинала (иначе из-под неё видно настоящий череп), поэтому «маленький» — это сам оригинал, «большой» — +16 %.
+   Сплошная часть маски шире черепа на картинке, чтобы при росте не было двойного контура */
+.alive-pupil {
+    /* размеры круга зрачка по ширине и высоте; настоящие значения ставит alive.js из data-alive */
+    --rx: 3%;
+    --ry: 2%;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    -webkit-mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), #000 0 68%, rgba(0, 0, 0, 0) 100%);
+    mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), #000 0 68%, rgba(0, 0, 0, 0) 100%);
+    transform-origin: var(--x) var(--y);
+    animation: alive-pupil-pulse 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    will-change: transform, filter;
+}
+
+@keyframes alive-pupil-pulse {
+    0%, 100% { transform: scale(1); filter: brightness(0.94); }
+    50% { transform: scale(1.16); filter: brightness(1.16); }
+}
+
+/* Капли на стекле: медленно сползают, вытягиваются и исчезают */
+.alive-drop {
+    position: absolute;
+    top: -6%;
+    width: calc(10px * var(--size));
+    height: calc(14px * var(--size));
+    border-radius: 50% 50% 46% 46%;
+    background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, .85) 0 12%, rgba(190, 240, 255, .25) 30%, rgba(120, 200, 220, .08) 70%);
+    box-shadow: inset 0 -2px 3px rgba(0, 40, 50, .35);
+    animation: alive-drop-slide 10s linear infinite;
+}
+
+@keyframes alive-drop-slide {
+    0% { transform: translateY(0) scaleY(1); opacity: 0; }
+    6% { opacity: 1; }
+    30% { transform: translateY(30vh) scaleY(1.05); }
+    38% { transform: translateY(31vh) scaleY(1.3); }
+    80% { opacity: 1; }
+    100% { transform: translateY(95vh) scaleY(1.6); opacity: 0; }
+}
+
+/* Насекомое-картинка (стрекоза или пчела, вырезанная из нашей картинки), если она есть */
+.alive-fly--sprite {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: clamp(26px, 7%, 46px);
+    margin: -12px 0 0 -16px;
+    animation: alive-fly-shiver 90ms linear infinite alternate;
+}
+
+@keyframes alive-fly-shiver {
+    from { margin-top: -13px; }
+    to { margin-top: -11px; }
+}
+
+/* Стрекоза из CSS — запасная, пока нет картинки: длинное сине-зелёное брюшко и две пары прозрачных крыльев;
+   путь задаёт скрипт */
+.alive-fly {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 26px;
+    height: 4px;
+    margin: -2px 0 0 -13px;
+    border-radius: 3px 40% 40% 3px;
+    background: linear-gradient(90deg, #0d3b46 0%, #1f8a8a 55%, #63d0c8 100%);
+}
+
+.alive-fly__wing {
+    position: absolute;
+    top: -9px;
+    left: 14px;
+    width: 4px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(210, 240, 255, .45);
+    box-shadow: 4px 0 0 rgba(210, 240, 255, .35);
+    animation: alive-wing 45ms linear infinite alternate;
+}
+
+.alive-fly__wing--right {
+    left: 18px;
+}
+
+@keyframes alive-wing {
+    from { transform: scaleY(1); }
+    to { transform: scaleY(.45); }
+}
+
+/* Искра: поднимается, виляет и гаснет */
+.alive-ember {
+    position: absolute;
+    bottom: -4%;
+    width: calc(4px * var(--size));
+    height: calc(4px * var(--size));
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff3c4 0 25%, #ff8a1f 45%, rgba(255, 60, 0, 0) 75%);
+    mix-blend-mode: screen;
+    animation: alive-rise 6s linear infinite;
+}
+
+/* Дым: мягкое пятно, поднимается и расплывается */
+.alive-smoke {
+    position: absolute;
+    bottom: 10%;
+    width: calc(90px * var(--size));
+    height: calc(90px * var(--size));
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(220, 220, 220, .18) 0 30%, rgba(200, 200, 200, 0) 70%);
+    animation: alive-rise 7s ease-out infinite;
+}
+
+@keyframes alive-rise {
+    0% { transform: translate(0, 0) scale(.6); opacity: 0; }
+    12% { opacity: 1; }
+    100% { transform: translate(var(--drift), -70vh) scale(1.6); opacity: 0; }
+}
+
+/* Молния: ломаная линия на долю секунды и вспышка всей картинки */
+.alive-lightning {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    mix-blend-mode: screen;
+}
+
+.alive-lightning polyline {
+    fill: none;
+    stroke: #e8f6ff;
+    stroke-width: .5;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 2px #8fd3ff);
+}
+
+.alive--flash .alive-lightning {
+    opacity: 1;
+}
+
+.alive--flash img {
+    filter: brightness(1.35) contrast(1.05);
+}
+
+/* Маленький живой портрет на визитке: рамка и тень остаются у самой картинки, а увеличение при наведении
+   переносится на обёртку, чтобы свечение глаз увеличивалось вместе с портретом */
+.alive--mini {
+    flex-shrink: 0;
+    max-width: none;
+    border: 0;
+    border-radius: 12px;
+    box-shadow: none;
+    overflow: visible;
+    transition: transform .3s ease;
+}
+
+.alive--mini:hover {
+    transform: scale(1.05);
+}
+
+.alive--mini .profile-img:hover {
+    transform: none;
+}
+
+.alive--mini .alive-layer {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .alive-eye {
+        animation: none;
+        opacity: .55;
+    }
+}

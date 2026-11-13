@@ -26,6 +26,8 @@ The language links above switch the documentation; they do not translate the exi
 - Each link opens its own page with a picture or a looping video and a way back.
 - A click on the photo (or Enter / Space on the keyboard) plays or pauses the music.
 - Works on a phone: every page has a responsive viewport.
+- **Living pictures** (`src/js/alive.js`): Vasily's eyes and pentacle glow and flare on hover or touch, the hooded skulls deep in his pupils slowly pulse, he breathes, rain runs down the glass, dragonflies circle, sparks, smoke and lightning fly on the Email page. The pictures of Call and Email are our own generated images in the style of the earlier ones; the old files are kept.
+- **Surprises** (`src/js/surprises.js`): now and then Vasily's paw scratches the screen with fiery claws, the paw snatches a hovering dragonfly, a pentacle burns in, a contract with a paw-print signature burns away. One at a time, never on a hidden tab or with reduced motion; the 🐾 button in the corner switches them off.
 
 ### Music
 
@@ -84,6 +86,8 @@ These are proposals, not currently implemented features.
 - Каждая ссылка открывает свою страницу с картинкой или видео по кругу и кнопкой назад.
 - Щелчок по фото (или Enter / пробел с клавиатуры) включает и ставит на паузу музыку.
 - Работает на телефоне: у каждой страницы адаптивный viewport.
+- **Живые картинки** (`src/js/alive.js`): глаза и пентаграмма Василия тлеют и вспыхивают при наведении или касании, черепа в капюшонах в глубине зрачков едва заметно пульсируют, кот дышит, по стеклу текут капли, кружат стрекозы, на странице Email летят искры и дым, бьют молнии. Картинки Call и Email — наши собственные, нарисованные в стиле прежних; старые файлы сохранены.
+- **Неожиданности** (`src/js/surprises.js`): изредка лапа Василия царапает экран огненными когтями, лапа выхватывает зависшую стрекозу, на экране прожигается пентаграмма, договор с отпечатком лапы сгорает. По одной за раз, не на скрытой вкладке и не при «уменьшить движение»; кнопка 🐾 в углу их выключает.
 
 ### Музыка
 
@@ -144,6 +148,8 @@ HTML5 · CSS3 · немного JavaScript · `<audio>` и `<video>` · GitHub P
 - כל קישור פותח דף משלו עם תמונה או סרטון בלולאה ודרך חזרה.
 - לחיצה על התמונה (או Enter / רווח במקלדת) מפעילה ועוצרת את המוזיקה.
 - עובד בטלפון.
+- **תמונות חיות** (`src/js/alive.js`): העיניים והפנטגרמה של וסילי בוערות ומתלקחות במעבר עכבר או במגע, הגולגלות בברדסים בעומק האישונים פועמות בעדינות, החתול נושם, טיפות זולגות על הזכוכית, שפיריות חגות מסביב, ובעמוד Email עפים ניצוצות ועשן ומכים ברקים. התמונות של Call ושל Email הן תמונות שיצרנו בעצמנו בסגנון הקודמות; הקבצים הישנים נשמרו.
+- **הפתעות** (`src/js/surprises.js`): מדי פעם הכפה של וסילי שורטת את המסך בציפורניים בוערות, הכפה חוטפת שפירית שמרחפת, פנטגרמה נצרבת על המסך וחוזה עם טביעת כפה נשרף. אחת בכל פעם, לא בלשונית מוסתרת ולא כשמבקשים פחות תנועה; הכפתור 🐾 בפינה מכבה אותן.
 
 ### מוזיקה
 
@@ -198,6 +204,8 @@ Los enlaces de idioma de arriba cambian la documentación; no traducen la interf
 - Cada enlace abre su propia página con una imagen o un vídeo en bucle y un botón para volver.
 - Un clic en la foto (o Enter / espacio con el teclado) pone y pausa la música.
 - Funciona en el móvil: cada página tiene un viewport adaptable.
+- **Imágenes vivas** (`src/js/alive.js`): los ojos y el pentáculo de Vasili brillan y se encienden al pasar el ratón o al tocar, las calaveras encapuchadas del fondo de sus pupilas laten despacio, el gato respira, las gotas resbalan por el cristal, giran libélulas y en la página Email vuelan chispas y humo y caen rayos. Las imágenes de Call y Email son nuestras, generadas en el estilo de las anteriores; los archivos antiguos se conservan.
+- **Sorpresas** (`src/js/surprises.js`): de vez en cuando la zarpa de Vasili araña la pantalla con garras de fuego, la zarpa atrapa una libélula que revolotea, un pentáculo se graba a fuego y un contrato firmado con la huella de una pata se quema. Una cada vez, nunca en una pestaña oculta ni con movimiento reducido; el botón 🐾 de la esquina las desactiva.
 
 ### Música
 
@@ -256,6 +264,8 @@ Les liens de langue ci-dessus changent la documentation ; ils ne traduisent pas
 - Chaque lien ouvre sa propre page avec une image ou une vidéo en boucle et un bouton retour.
 - Un clic sur la photo (ou Entrée / espace au clavier) lance et met en pause la musique.
 - Fonctionne sur téléphone : chaque page a un viewport adaptatif.
+- **Images vivantes** (`src/js/alive.js`) : les yeux et le pentacle de Vassili luisent et s’embrasent au survol ou au toucher, les crânes encapuchonnés au fond de ses pupilles palpitent doucement, le chat respire, des gouttes coulent sur la vitre, des libellules tournent autour, et sur la page Email volent des étincelles et de la fumée sous les éclairs. Les images de Call et d’Email sont les nôtres, générées dans le style des précédentes ; les anciens fichiers sont conservés.
+- **Surprises** (`src/js/surprises.js`) : de temps en temps la patte de Vassili griffe l’écran de ses griffes de feu, la patte attrape une libellule en vol stationnaire, un pentacle se grave au fer rouge et un contrat signé d’une empreinte de patte part en fumée. Une à la fois, jamais dans un onglet masqué ni avec le mouvement réduit ; le bouton 🐾 dans le coin les désactive.
 
 ### Musique
 
