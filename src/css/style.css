@@ -212,7 +212,7 @@ audio {
 }
 
 .contact-text {
-    color: #555555; /* Очень приглушенный серый цвет, никакого оранжевого */
+    color: #8a8a8a; /* Приглушённый серый, никакого оранжевого. Было #555555 — контраст 2.4 к фону, текст почти не читался (axe, конвейер качества 13.11); #8a8a8a даёт 5.2 при той же сдержанности */
     font-size: 11px;
     margin: 3px 0;
     font-family: 'Courier New', monospace;
@@ -238,7 +238,8 @@ audio {
 
 .back-link {
     margin-top: 20px;
-    color: #cc0000;
+    /* Был #cc0000 — контраст 3.3 к чёрному фону, меньше нормы 4.5; #f02a2a — тот же адский красный, но читается (4.7) */
+    color: #f02a2a;
     text-decoration: none;
     font-family: 'Courier New', monospace;
     font-weight: bold;
