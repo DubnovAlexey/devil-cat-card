@@ -1,12 +1,13 @@
 // ФАЙЛ: src/js/alive.js
 // НАЗНАЧЕНИЕ: «оживляет» картинки визитки: глаза горят и вспыхивают, кот дышит, по стеклу текут капли,
-// вокруг кружат стрекозы, летят искры и дым, бьют молнии. Сама картинка не меняется — всё живое лежит
+// вокруг кружат мухи, летят искры и дым, бьют молнии. Сама картинка не меняется — всё живое лежит
 // накладками поверх неё, поэтому то же самое подходит к любой новой картинке.
 // КАК ПОДКЛЮЧИТЬ: <figure class="alive" data-alive='{"eyes":[[x, y, r, "#цвет"]], "fx":["breath"]}'><img …></figure>
 //   x, y — центр глаза в процентах ширины и высоты картинки, r — радиус свечения в процентах ширины;
-//   fx — список эффектов: breath (дыхание), rain (капли на стекле), flies (стрекозы), embers (искры),
-//   smoke (дым), lightning (молнии). Стрекозы кружат вокруг точки "flies": [x, y, радиус в % ширины].
-//   "pupils": [[x, y, r], …] — черепа в глубине зрачков чуть пульсируют (центр и радиус зрачка в % ширины).
+//   fx — список эффектов: breath (дыхание), rain (капли на стекле), flies (мухи), embers (искры),
+//   smoke (дым), lightning (молнии). Мухи кружат вокруг точки "flies": [x, y, радиус в % ширины].
+//   "pupils": [[x, y, r, k], …] — черепа в глазах пульсируют (центр и радиус глаза в % ширины; k — сплющенность
+//              окна по высоте для миндалевидных кошачьих глаз, 1 — круглый глаз, по умолчанию 1).
 // При «уменьшить движение» в системе остаётся только ровное свечение глаз.
 // Касание или наведение на картинку — глаза вспыхивают (палец и мышь равноправны).
 (() => {
@@ -23,22 +24,20 @@
     };
     // КОНЕЦ ФУНКЦИИ make
 
-    // НАЧАЛО ФУНКЦИИ addEyes — свечение каждого глаза своим цветом, со своим ритмом
-    // calm — когда в зрачках пульсируют черепа: оба глаза разгораются в такт с ними, медленно (8 с, как в CSS
-    // у .alive-pupil); остальные огоньки (пентаграмма) живут своим ритмом
-    const addEyes = (layer, eyes, calm) => {
+    // НАЧАЛО ФУНКЦИИ addEyes — свечение огоньков своим цветом, со своим ритмом (пентаграмма и т. п.)
+    // skulls — в глазах черепа: тогда на сами глаза (первые два огонька) кольца-ореолы НЕ кладутся.
+    // Алексей 14.11: «черепа должны пульсировать внутри глаз, а не появляться какие-то круги непонятные
+    // цветные» — живут только черепа в зрачках (addPupils), цветных колец поверх глаз нет
+    const addEyes = (layer, eyes, skulls) => {
         eyes.forEach(([x, y, r, color], index) => {
+            if (skulls && index < 2) return;
             const eye = make('span', 'alive-eye', layer);
             eye.style.setProperty('--x', `${x}%`);
             eye.style.setProperty('--y', `${y}%`);
             eye.style.setProperty('--r', `${r}%`);
             eye.style.setProperty('--glow', color);
-            if (calm && index < 2) {
-                eye.style.animationDuration = '8s';
-            } else {
-                eye.style.animationDelay = `${-index * 1.3}s`;
-                eye.style.animationDuration = `${rand(2.6, 3.6).toFixed(2)}s`;
-            }
+            eye.style.animationDelay = `${-index * 1.3}s`;
+            eye.style.animationDuration = `${rand(2.6, 3.6).toFixed(2)}s`;
         });
     };
     // КОНЕЦ ФУНКЦИИ addEyes
@@ -49,16 +48,19 @@
     const addPupils = (layer, image, pupils) => {
         const place = () => {
             const ratio = image.naturalWidth && image.naturalHeight ? image.naturalWidth / image.naturalHeight : 1;
-            pupils.forEach(([x, y, r]) => {
-                const copy = make('img', 'alive-pupil', layer);
+            pupils.forEach(([x, y, r, k = 1]) => {
+                // Неподвижное «окно» размером с глаз (маска) и внутри него — растущая копия картинки.
+                // Маска на самой копии росла бы вместе с ней и при сильном росте вылезала бы за глаз (14.11)
+                const window_ = make('span', 'alive-pupil', layer);
+                window_.style.setProperty('--x', `${x}%`);
+                window_.style.setProperty('--y', `${y}%`);
+                // радиус в % ширины; по высоте тот же круг — в % высоты
+                window_.style.setProperty('--rx', `${r}%`);
+                window_.style.setProperty('--ry', `${(r * ratio * k).toFixed(2)}%`);
+                const copy = make('img', 'alive-pupil__skull', window_);
                 copy.alt = '';
                 copy.src = image.currentSrc || image.src;
-                copy.style.setProperty('--x', `${x}%`);
-                copy.style.setProperty('--y', `${y}%`);
-                // радиус в % ширины; по высоте тот же круг — в % высоты
-                copy.style.setProperty('--rx', `${r}%`);
-                copy.style.setProperty('--ry', `${(r * ratio).toFixed(2)}%`);
-                // оба черепа пульсируют в такт, ритм задан в CSS — спокойный и одинаковый
+                // оба черепа пульсируют в такт, ритм задан в CSS
             });
         };
         if (image.complete && image.naturalWidth) place();
@@ -91,12 +93,13 @@
     };
     // КОНЕЦ ФУНКЦИИ addRising
 
-    // НАЧАЛО ФУНКЦИИ addFlies — две стрекозы кружат «восьмёрками» вокруг головы, иногда дёргаются в сторону
+    // НАЧАЛО ФУНКЦИИ addFlies — две мухи кружат «восьмёрками» вокруг головы, иногда дёргаются в сторону
+    // (14.11: стрекозы из CSS отменены — выглядели летающими ёршиками; картинка насекомого — через flySprite)
     const addFlies = (figure, layer, [cx, cy, radius], sprite) => {
         const flies = [0, 1].map(() => {
             let fly;
             if (sprite) {
-                // Настоящая стрекоза (наша картинка); если её нет — стрекоза из CSS
+                // Насекомое-картинка (flySprite); если её нет — муха из CSS
                 fly = make('img', 'alive-fly--sprite', layer);
                 fly.alt = '';
                 fly.src = sprite;
@@ -176,7 +179,8 @@
         layer.setAttribute('aria-hidden', 'true');
         const image = body.querySelector('img');
         const pupils = !reduce && config.pupils && image ? config.pupils : null;
-        addEyes(layer, config.eyes || [], Boolean(pupils));
+        // Кольца на глаза не кладутся, если в глазах черепа, — даже при «меньше движения», где черепа не пульсируют
+        addEyes(layer, config.eyes || [], Boolean(config.pupils));
         if (pupils) addPupils(layer, image, pupils);
         if (fx.has('breath')) figure.classList.add('alive--breath');
         if (fx.has('rain')) addRain(layer);

@@ -146,6 +146,20 @@
     const H = () => window.innerHeight;
     const place = (node, x, y, extra = '') => { node.style.transform = `translate(${x}px, ${y}px) ${extra}`; };
 
+    // Главное на странице — визитка или живая картинка; висячие сценки его не закрывают (Алексей 14.11:
+    // «контракты перекрывают изображение… на всех страничках»). Свободное место — поле слева или справа
+    // от главного; если поля нет (узкий телефон), сценка в этот раз не показывается.
+    const mainBox = () => document.querySelector('.alive:not(.alive--mini), .secretary-video, .card, main')?.getBoundingClientRect();
+    const freeX = (width) => {
+        const box = mainBox();
+        if (!box) return rand(0.15, 0.65) * W();
+        const gap = 18;
+        const spots = [];
+        if (box.left - gap * 2 >= width) spots.push(rand(gap, box.left - gap - width));
+        if (W() - box.right - gap * 2 >= width) spots.push(rand(box.right + gap, W() - gap - width));
+        return spots.length ? spots[Math.floor(Math.random() * spots.length)] : null;
+    };
+
     const SCENES = {
         // Лапа выныривает слева, царапает — на экране три огненные царапины, они остывают и гаснут
         async scratch() {
@@ -247,7 +261,8 @@
         // Договор опускается сверху, качается и сгорает снизу вверх
         async contract() {
             const paper = await sprite('contract.webp', 'surprise--contract');
-            const x = rand(0.15, 0.65) * W();
+            const x = freeX(paper.offsetWidth);
+            if (x === null) { paper.remove(); return; } // рядом с главным нет места — договор не закроет картинку
             place(paper, x, -paper.offsetHeight - 40);
             await wait(30);
             paper.classList.add('surprise--move-soft');

@@ -33,6 +33,20 @@
     display: block;
 }
 
+/* Копия черепа ложится ровно на картинку внутри красной рамки портрета (3 px, при увеличении 1,2 px) —
+   иначе в покое череп-копия сдвинут и по краю окна виден двойной контур */
+.alive--mini .alive-pupil__skull {
+    box-sizing: border-box;
+    padding: 3px;
+    border-radius: 12px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .alive--mini:hover .alive-pupil__skull {
+        padding: 1.2px;
+    }
+}
+
 /* Тело картинки и слой накладок дышат вместе, иначе глаза «съезжали» бы с лица */
 .alive-body {
     position: relative;
@@ -93,25 +107,35 @@
    один долгий вдох-выдох в 8 секунд, оба глаза в такт, мягкая синусоида без рывков. Копия никогда не меньше
    оригинала (иначе из-под неё видно настоящий череп), поэтому «маленький» — это сам оригинал, «большой» — +16 %.
    Сплошная часть маски шире черепа на картинке, чтобы при росте не было двойного контура */
+/* 14.11 (Алексей): «черепа должны серьёзнее увеличиваться внутри глаз и заметнее привлекать внимание» —
+   череп вырастает на 42 % и разгорается, вдох-выдох 6 с, оба в такт. Окно-маска размером с весь глаз стоит
+   на месте (.alive-pupil), растёт только картинка внутри (.alive-pupil__skull), поэтому выросший череп
+   заполняет глаз, но не вылезает на шерсть */
 .alive-pupil {
-    /* размеры круга зрачка по ширине и высоте; настоящие значения ставит alive.js из data-alive */
+    /* размеры круга глаза по ширине и высоте; настоящие значения ставит alive.js из data-alive */
     --rx: 3%;
     --ry: 2%;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    -webkit-mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), #000 0 78%, rgba(0, 0, 0, 0) 100%);
+    mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), #000 0 78%, rgba(0, 0, 0, 0) 100%);
+}
+
+.alive-pupil__skull {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     max-height: none;
-    -webkit-mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), #000 0 68%, rgba(0, 0, 0, 0) 100%);
-    mask-image: radial-gradient(ellipse var(--rx) var(--ry) at var(--x) var(--y), #000 0 68%, rgba(0, 0, 0, 0) 100%);
     transform-origin: var(--x) var(--y);
-    animation: alive-pupil-pulse 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation: alive-pupil-pulse 6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
     will-change: transform, filter;
 }
 
 @keyframes alive-pupil-pulse {
-    0%, 100% { transform: scale(1); filter: brightness(0.94); }
-    50% { transform: scale(1.16); filter: brightness(1.16); }
+    0%, 100% { transform: scale(1); filter: brightness(0.92) contrast(1); }
+    50% { transform: scale(1.42); filter: brightness(1.38) contrast(1.12) saturate(1.15); }
 }
 
 /* Капли на стекле: медленно сползают, вытягиваются и исчезают */
@@ -135,7 +159,7 @@
     100% { transform: translateY(95vh) scaleY(1.6); opacity: 0; }
 }
 
-/* Насекомое-картинка (стрекоза или пчела, вырезанная из нашей картинки), если она есть */
+/* Насекомое-картинка (вырезанная из нашей картинки), если она есть */
 .alive-fly--sprite {
     position: absolute;
     left: 0;
@@ -150,38 +174,61 @@
     to { margin-top: -11px; }
 }
 
-/* Стрекоза из CSS — запасная, пока нет картинки: длинное сине-зелёное брюшко и две пары прозрачных крыльев;
-   путь задаёт скрипт */
+/* Муха из CSS (14.11: стрекозы-палочки отменены — Алексей: «ёршики для туалета летающие… лучше даже мухи»):
+   тёмное брюшко с полосками, голова с крупными красно-бурыми глазами, два прозрачных крыла с отливом сложены
+   назад и мелко дрожат. Голова смотрит вправо; разворот по ходу полёта и путь задаёт скрипт */
 .alive-fly {
     position: absolute;
     left: 0;
     top: 0;
-    width: 26px;
-    height: 4px;
-    margin: -2px 0 0 -13px;
-    border-radius: 3px 40% 40% 3px;
-    background: linear-gradient(90deg, #0d3b46 0%, #1f8a8a 55%, #63d0c8 100%);
+    width: 11px;
+    height: 7px;
+    margin: -3.5px 0 0 -5.5px;
+    border-radius: 55% 45% 45% 55% / 50%;
+    background: repeating-linear-gradient(90deg, #15130f 0 1.6px, #2e2b24 1.6px 2.6px), #15130f;
+    box-shadow: 0 1px 1.5px rgba(0, 0, 0, .65);
 }
 
+/* голова с глазами */
+.alive-fly::before {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: .5px;
+    width: 5px;
+    height: 6px;
+    border-radius: 50%;
+    /* два крупных фасеточных глаза — сверху и снизу головы */
+    background:
+        radial-gradient(circle at 55% 26%, #b0401c 0 32%, rgba(0, 0, 0, 0) 36%),
+        radial-gradient(circle at 55% 74%, #b0401c 0 32%, rgba(0, 0, 0, 0) 36%),
+        #2a0c06;
+}
+
+/* крылья: прозрачные лепестки от груди назад, за брюшко, чуть в стороны; дрожат — мерцают, не меняя наклона */
 .alive-fly__wing {
     position: absolute;
-    top: -9px;
-    left: 14px;
-    width: 4px;
-    height: 22px;
+    top: -3px;
+    left: -4px;
+    width: 9px;
+    height: 4px;
     border-radius: 50%;
-    background: rgba(210, 240, 255, .45);
-    box-shadow: 4px 0 0 rgba(210, 240, 255, .35);
-    animation: alive-wing 45ms linear infinite alternate;
+    background: linear-gradient(90deg, rgba(150, 175, 210, .25), rgba(236, 242, 248, .6));
+    box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .35);
+    transform: rotate(-20deg);
+    transform-origin: 95% 85%;
+    animation: alive-wing 40ms linear infinite alternate;
 }
 
 .alive-fly__wing--right {
-    left: 18px;
+    top: 5px;
+    transform: rotate(20deg);
+    transform-origin: 95% 15%;
 }
 
 @keyframes alive-wing {
-    from { transform: scaleY(1); }
-    to { transform: scaleY(.45); }
+    from { opacity: .95; }
+    to { opacity: .3; }
 }
 
 /* Искра: поднимается, виляет и гаснет */
@@ -242,17 +289,37 @@
 /* Маленький живой портрет на визитке: рамка и тень остаются у самой картинки, а увеличение при наведении
    переносится на обёртку, чтобы свечение глаз увеличивалось вместе с портретом */
 .alive--mini {
+    position: relative;
     flex-shrink: 0;
     max-width: none;
     border: 0;
     border-radius: 12px;
     box-shadow: none;
     overflow: visible;
-    transition: transform .3s ease;
+    transform-origin: 0 0;
+    transition: transform .38s cubic-bezier(.2, .8, .25, 1);
 }
 
-.alive--mini:hover {
-    transform: scale(1.05);
+/* Кот под мышью растёт по-настоящему — в 2,8 раза, из своего угла, поверх текста визитки, вместе с горящими
+   глазами и черепами (правило владельца 14.11: картинки в маленьких окошках при наведении увеличиваются
+   в 2,5–3 раза, а не на 5 %). Только для мыши: на телефоне касание кота по-прежнему включает музыку. */
+@media (hover: hover) and (pointer: fine) {
+    .alive--mini:hover {
+        transform: scale(2.8);
+        z-index: 20;
+    }
+
+    /* Тень и красная кайма отделяют большого кота от текста; числа малы — масштаб их умножит */
+    .alive--mini:hover .profile-img {
+        border-width: 1.2px; /* ×2,8 — та же красная кайма, что у маленького кота, а не толстая рама */
+        box-shadow: 0 0 0 .5px #000, 0 6px 18px rgba(0, 0, 0, .85), 0 0 7px rgba(204, 0, 0, .55);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .alive--mini {
+        transition: none;
+    }
 }
 
 .alive--mini .profile-img:hover {
